@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resource Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+      margin: 20px 0;
+    }
+    .resource-list {
+      list-style-type: none;
+    }
+    .resource-item {
+      padding: 10px;
+      background: #f5f5f5;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Online Resources Mapped</h1>
+  
+  <!-- List of Resources -->
+  <ul class="resource-list">
+    <li class="resource-item" onclick="centerMap(40.73061, -73.935242)">Resource 1 - New York</li>
+    <li class="resource-item" onclick="centerMap(34.052235, -118.243683)">Resource 2 - Los Angeles</li>
+    <li class="resource-item" onclick="centerMap(41.878113, -87.629799)">Resource 3 - Chicago</li>
+  </ul>
+  
+  <!-- Map Container -->
+  <div id="map"></div>
+  
+  <!-- Leaflet JS Library -->
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  
+  <script>
+    // Initialize the map
+    const map = L.map('map').setView([39.8283, -98.5795], 4); // Center of the US
+    
+    // Load map tiles from OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    
+    // Resource markers
+    const resources = [
+      { name: 'Resource 1', lat: 40.73061, lng: -73.935242, description: 'New York Resource' },
+      { name: 'Resource 2', lat: 34.052235, lng: -118.243683, description: 'Los Angeles Resource' },
+      { name: 'Resource 3', lat: 41.878113, lng: -87.629799, description: 'Chicago Resource' }
+    ];
+    
+    // Add markers to the map
+    resources.forEach(resource => {
+      const marker = L.marker([resource.lat, resource.lng]).addTo(map);
+      marker.bindPopup(`<strong>${resource.name}</strong><br>${resource.description}`);
+    });
+    
+    // Function to center map on specific coordinates
+    function centerMap(lat, lng) {
+      map.setView([lat, lng], 10);
+    }
+  </script>
+  
+</body>
+</html>
